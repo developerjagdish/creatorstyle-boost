@@ -26,6 +26,12 @@ export interface StyleProfile {
   script_9?: string;
   script_10?: string;
   created_at: string;
+  // AI-generated style summary fields
+  tone?: string;
+  hook_style?: string;
+  structure?: string;
+  common_phrases?: string[];
+  writing_rules?: string[];
 }
 
 export interface BoostHistory {
@@ -179,17 +185,32 @@ export const db = {
 };
 
 // Generate boost via webhook
-export async function generateBoost(style: StyleProfile, timeoutMs: number = 60000): Promise<{ idea: string; script: string; cta: string }> {
+export async function generateBoost(style: StyleProfile, userIdea: string, timeoutMs: number = 60000): Promise<{ idea: string; script: string; cta: string }> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
+    // Build the payload with user idea, style info, and AI summary
+    const payload = {
+      user_idea: userIdea,
+      style_id: style.id,
+      style_name: style.name,
+      // AI-Generated Style Summary
+      ai_summary: {
+        tone: style.tone || null,
+        hook_style: style.hook_style || null,
+        structure: style.structure || null,
+        common_phrases: style.common_phrases || [],
+        writing_rules: style.writing_rules || [],
+      },
+    };
+
     const response = await fetch(BOOST_WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(style),
+      body: JSON.stringify(payload),
       signal: controller.signal,
     });
 
@@ -201,15 +222,30 @@ export async function generateBoost(style: StyleProfile, timeoutMs: number = 600
 
     const data = await response.json();
     
-    // Ensure the response has the expected structure
-    if (!data.idea && !data.Idea && !data.script && !data.Script && !data.cta && !data.CTA) {
-      throw new Error('Invalid response format from webhook');
+    // Handle the response format: array with nested content object
+    // Expected format: [{ "content": { "script": "...", "cta": "..." } }]
+    let script = '';
+    let cta = '';
+
+    if (Array.isArray(data) && data.length > 0 && data[0].content) {
+      // New format: array with content object
+      const content = data[0].content;
+      script = content.script || content.Script || '';
+      cta = content.cta || content.CTA || '';
+    } else if (data.content) {
+      // Single object with content
+      script = data.content.script || data.content.Script || '';
+      cta = data.content.cta || data.content.CTA || '';
+    } else {
+      // Fallback to direct properties
+      script = data.script || data.Script || '';
+      cta = data.cta || data.CTA || '';
     }
 
     return {
-      idea: data.idea || data.Idea || '',
-      script: data.script || data.Script || '',
-      cta: data.cta || data.CTA || '',
+      idea: '', // The idea comes from user input, not the response
+      script,
+      cta,
     };
   } catch (error: any) {
     clearTimeout(timeoutId);
