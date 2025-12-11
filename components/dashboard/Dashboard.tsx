@@ -60,28 +60,26 @@ const Sidebar = ({
       {/* Mobile overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
       
       {/* Sidebar */}
       <aside className={cn(
-        "fixed left-0 top-0 h-full w-64 bg-zinc-950 border-r border-zinc-800/50 z-50 flex flex-col transition-transform duration-300",
+        "fixed left-0 top-0 h-full w-64 glass-effect z-50 flex flex-col transition-transform duration-300",
         "lg:translate-x-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         {/* Logo */}
-        <div className="p-6 border-b border-zinc-800/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-              <Zap className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <span className="text-xl font-bold text-white">CreatorJoy</span>
-              <p className="text-xs text-zinc-500">AI Content Studio</p>
-            </div>
-          </div>
+        <div className="h-20 flex items-center justify-center border-b border-white/10">
+          <a href="/" className="flex items-center gap-3 group">
+            <img 
+              src="/logo.png" 
+              alt="CreatorJoy" 
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </a>
         </div>
 
         {/* Navigation */}
@@ -98,41 +96,38 @@ const Sidebar = ({
                   setIsOpen(false);
                 }}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
+                  "nav-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
                   isActive 
-                    ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white border border-cyan-500/30" 
-                    : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+                    ? "active text-white" 
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
                 )}
               >
                 <Icon className={cn("w-5 h-5", isActive && "text-cyan-400")} />
                 {item.label}
-                {item.id === 'daily-boost' && (
-                  <span className="ml-auto bg-cyan-500 text-black text-xs px-2 py-0.5 rounded-full font-semibold">
-                    New
-                  </span>
-                )}
               </button>
             );
           })}
         </nav>
 
         {/* Bottom Section - Profile & Logout */}
-        <div className="p-4 border-t border-zinc-800/50 space-y-3">
+        <div className="p-4 border-t border-white/10 space-y-3">
           {/* Demo User Profile */}
-          <div className="flex items-center gap-3 p-3 bg-zinc-900/50 rounded-xl">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-semibold">JD</span>
-            </div>
+          <div className="flex items-center gap-3">
+            <img 
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" 
+              alt="User Avatar" 
+              className="w-10 h-10 rounded-full border-2 border-cyan-400 object-cover"
+            />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">John Doe</p>
-              <p className="text-xs text-zinc-500 truncate">john@example.com</p>
+              <p className="text-sm font-semibold text-white truncate">John Doe</p>
+              <p className="text-xs text-gray-400 truncate">Creator</p>
             </div>
           </div>
           
           {/* Logout Button */}
           <button
             onClick={onLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
           >
             <LogOut className="w-5 h-5" />
             Logout
@@ -165,34 +160,35 @@ const Header = ({
   };
 
   return (
-    <header className="h-16 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 flex items-center justify-between px-4 lg:px-6">
+    <header className="h-16 glass-header flex items-center justify-between px-4 lg:px-6">
       {/* Left Section - Mobile menu & Logo */}
       <div className="flex items-center gap-4">
         {/* Mobile menu button */}
         <button 
-          className="lg:hidden p-2 text-zinc-400 hover:text-white"
+          className="lg:hidden p-2 text-gray-400 hover:text-white transition-colors"
           onClick={() => setIsOpen(true)}
         >
           <Menu className="w-6 h-6" />
         </button>
         
         {/* Logo for mobile */}
-        <div className="lg:hidden flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center">
-            <Zap className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-lg font-bold text-white">CreatorJoy</span>
-        </div>
+        <a href="/" className="lg:hidden flex items-center">
+          <img 
+            src="/logo.png" 
+            alt="CreatorJoy" 
+            className="h-8 w-auto object-contain"
+          />
+        </a>
       </div>
 
       {/* Search Bar */}
       <div className="hidden md:flex items-center flex-1 max-w-md mx-4">
         <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
           <input
             type="text"
             placeholder="Search..."
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl py-2 pl-10 pr-4 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-cyan-500/50 transition-colors"
+            className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-10 pr-4 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all"
           />
         </div>
       </div>
@@ -200,13 +196,13 @@ const Header = ({
       {/* Right Section */}
       <div className="flex items-center gap-2 sm:gap-4">
         {/* Notifications */}
-        <button className="p-2 text-zinc-400 hover:text-white transition-colors relative">
+        <button className="p-2 text-gray-400 hover:text-white transition-colors relative">
           <Bell className="w-5 h-5" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-cyan-500 rounded-full" />
         </button>
 
         {/* Theme Toggle */}
-        <button className="hidden sm:block p-2 text-zinc-400 hover:text-white transition-colors">
+        <button className="hidden sm:block p-2 text-gray-400 hover:text-white transition-colors">
           <Moon className="w-5 h-5" />
         </button>
 
@@ -214,16 +210,18 @@ const Header = ({
         <div className="relative">
           <button 
             onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-3 pl-2 sm:pl-4 sm:border-l border-zinc-800 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 pl-2 sm:pl-4 sm:border-l border-white/10 hover:opacity-80 transition-opacity"
           >
-            <span className="hidden sm:block text-sm text-zinc-400">
+            <span className="hidden sm:block text-sm text-gray-400">
               <span className="text-white font-medium">John Doe</span>
             </span>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center ring-2 ring-zinc-800">
-              <span className="text-white font-semibold text-sm">JD</span>
-            </div>
+            <img 
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" 
+              alt="User Avatar" 
+              className="w-9 h-9 rounded-full border-2 border-cyan-400 object-cover"
+            />
             <ChevronDown className={cn(
-              "hidden sm:block w-4 h-4 text-zinc-400 transition-transform",
+              "hidden sm:block w-4 h-4 text-gray-400 transition-transform",
               showProfileMenu && "rotate-180"
             )} />
           </button>
@@ -231,41 +229,43 @@ const Header = ({
           {/* Profile Dropdown Menu */}
           {showProfileMenu && (
             <>
-              {/* Backdrop to close menu */}
+              {/* Backdrop to close menu - invisible */}
               <div 
-                className="fixed inset-0 z-40"
+                className="fixed inset-0 z-[9998]"
                 onClick={() => setShowProfileMenu(false)}
               />
               
               {/* Menu */}
-              <div className="absolute right-0 top-full mt-2 w-64 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl z-50 overflow-hidden">
+              <div className="absolute right-0 top-full mt-2 w-64 glass-dropdown rounded-xl z-[9999] overflow-hidden">
                 {/* User Info */}
-                <div className="p-4 border-b border-zinc-800">
+                <div className="p-4 border-b border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center">
-                      <span className="text-white font-semibold text-lg">JD</span>
-                    </div>
+                    <img 
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" 
+                      alt="User Avatar" 
+                      className="w-12 h-12 rounded-full border-2 border-cyan-400 object-cover"
+                    />
                     <div>
                       <p className="text-white font-medium">John Doe</p>
-                      <p className="text-sm text-zinc-500">john@example.com</p>
+                      <p className="text-sm text-gray-400">john@example.com</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Menu Items */}
                 <div className="p-2">
-                  <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
+                  <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
                     <User className="w-4 h-4" />
                     View Profile
                   </button>
-                  <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
+                  <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
                     <Settings className="w-4 h-4" />
                     Settings
                   </button>
                 </div>
 
                 {/* Logout */}
-                <div className="p-2 border-t border-zinc-800">
+                <div className="p-2 border-t border-white/10">
                   <button 
                     onClick={() => {
                       setShowProfileMenu(false);
@@ -406,13 +406,13 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Welcome Back, Creator</h1>
-        <p className="text-zinc-400">Your personalized style profiles and daily boost generator.</p>
+        <p className="text-gray-400">Your personalized style profiles and daily boost generator.</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {/* Total Styles */}
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors">
+        <div className="glass-card rounded-xl p-5 hover:border-gray-600/50 transition-all hover:scale-[1.02]">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
               <Palette className="w-5 h-5 text-purple-400" />
@@ -422,11 +422,11 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
           <p className="text-2xl font-bold text-white mb-1">
             {isLoading ? <span className="animate-pulse">...</span> : stats.totalStyles}
           </p>
-          <p className="text-sm text-zinc-500">Total Styles Created</p>
+          <p className="text-sm text-gray-400">Total Styles Created</p>
         </div>
 
         {/* Last Boost */}
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors">
+        <div className="glass-card rounded-xl p-5 hover:border-gray-600/50 transition-all hover:scale-[1.02]">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
               <Clock className="w-5 h-5 text-cyan-400" />
@@ -435,11 +435,11 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
           <p className="text-2xl font-bold text-white mb-1">
             {isLoading ? <span className="animate-pulse">...</span> : stats.lastBoost}
           </p>
-          <p className="text-sm text-zinc-500">Last Boost Generated</p>
+          <p className="text-sm text-gray-400">Last Boost Generated</p>
         </div>
 
         {/* Boosts This Week */}
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors">
+        <div className="glass-card rounded-xl p-5 hover:border-gray-600/50 transition-all hover:scale-[1.02]">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
               <Calendar className="w-5 h-5 text-amber-400" />
@@ -448,25 +448,25 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
           <p className="text-2xl font-bold text-white mb-1">
             {isLoading ? <span className="animate-pulse">...</span> : stats.boostsThisWeek}
           </p>
-          <p className="text-sm text-zinc-500">Boosts This Week</p>
+          <p className="text-sm text-gray-400">Boosts This Week</p>
         </div>
       </div>
 
       {/* Boost Generator Section */}
-      <div className="bg-gradient-to-br from-zinc-900/80 to-zinc-900/40 border border-zinc-800 rounded-2xl p-6 mb-6">
+      <div className="glass-card rounded-2xl p-6 mb-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center">
             <Zap className="w-6 h-6 text-white" />
           </div>
           <div>
             <h2 className="text-xl font-bold text-white">Boost Generator</h2>
-            <p className="text-sm text-zinc-400">Generate content in your unique style</p>
+            <p className="text-sm text-gray-400">Generate content in your unique style</p>
           </div>
         </div>
 
         {isLoading ? (
           <div className="flex items-center justify-center py-8">
-            <RefreshCw className="w-6 h-6 text-zinc-400 animate-spin" />
+            <RefreshCw className="w-6 h-6 text-gray-400 animate-spin" />
           </div>
         ) : !hasStyleProfiles ? (
           /* No Style Profile Warning */
@@ -484,14 +484,14 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
           <div className="space-y-4">
             {/* Style Selector */}
             <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Select Style Profile
               </label>
               <div className="relative">
                 <select
                   value={selectedStyle}
                   onChange={(e) => setSelectedStyle(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl py-3 px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-cyan-500/50 transition-colors"
+                  className="w-full bg-gray-800/50 border border-gray-700/50 rounded-xl py-3 px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-purple-500/50 transition-colors backdrop-blur-sm"
                 >
                   <option value="">Choose a style profile...</option>
                   {styleProfiles.map((style) => (
@@ -500,13 +500,13 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
               </div>
             </div>
 
             {/* Content Idea Input */}
             <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 What do you want to create content about?
               </label>
               <textarea
@@ -514,7 +514,7 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
                 onChange={(e) => setContentIdea(e.target.value)}
                 placeholder="Enter your content idea or topic... e.g., 'How to stay productive while working from home' or 'Why most people fail at building habits'"
                 rows={3}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-xl py-3 px-4 text-white placeholder:text-zinc-500 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
+                className="w-full bg-gray-800/50 border border-gray-700/50 rounded-xl py-3 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-colors resize-none backdrop-blur-sm"
               />
             </div>
 
@@ -558,7 +558,7 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
 
       {/* Generated Boost Result */}
       {generatedBoost && (
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="glass-card rounded-2xl p-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-cyan-400" />
@@ -573,15 +573,15 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
           {/* Idea */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-zinc-400 uppercase tracking-wide">Idea</label>
+              <label className="text-sm font-medium text-gray-400 uppercase tracking-wide">Idea</label>
               <button
                 onClick={() => handleCopy('idea', generatedBoost.idea)}
-                className="text-zinc-500 hover:text-white transition-colors p-1"
+                className="text-gray-500 hover:text-white transition-colors p-1"
               >
                 {copiedField === 'idea' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
-            <div className="bg-zinc-800/50 border border-zinc-700 rounded-xl p-4">
+            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 backdrop-blur-sm">
               <p className="text-white font-medium">{generatedBoost.idea}</p>
             </div>
           </div>
@@ -589,26 +589,26 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
           {/* Script */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-zinc-400 uppercase tracking-wide">Script</label>
+              <label className="text-sm font-medium text-gray-400 uppercase tracking-wide">Script</label>
               <button
                 onClick={() => handleCopy('script', generatedBoost.script)}
-                className="text-zinc-500 hover:text-white transition-colors p-1"
+                className="text-gray-500 hover:text-white transition-colors p-1"
               >
                 {copiedField === 'script' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
-            <div className="bg-zinc-800/50 border border-zinc-700 rounded-xl p-4">
-              <p className="text-zinc-300 whitespace-pre-line leading-relaxed">{generatedBoost.script}</p>
+            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 backdrop-blur-sm">
+              <p className="text-gray-300 whitespace-pre-line leading-relaxed">{generatedBoost.script}</p>
             </div>
           </div>
 
           {/* CTA */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-zinc-400 uppercase tracking-wide">Call to Action</label>
+              <label className="text-sm font-medium text-gray-400 uppercase tracking-wide">Call to Action</label>
               <button
                 onClick={() => handleCopy('cta', generatedBoost.cta)}
-                className="text-zinc-500 hover:text-white transition-colors p-1"
+                className="text-gray-500 hover:text-white transition-colors p-1"
               >
                 {copiedField === 'cta' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
               </button>
@@ -619,7 +619,7 @@ const DashboardSection = ({ preSelectedStyleId }: { preSelectedStyleId?: string 
           </div>
 
           {/* Webhook Note */}
-          <div className="flex items-center gap-2 text-zinc-500 text-sm pt-2 border-t border-zinc-800">
+          <div className="flex items-center gap-2 text-gray-500 text-sm pt-2 border-t border-gray-700/30">
             <Mail className="w-4 h-4" />
             <span>Email sent via webhook → n8n</span>
           </div>
@@ -678,7 +678,7 @@ const StyleDetailView = ({
       {/* Back Button */}
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-zinc-400 hover:text-white mb-6 transition-colors"
+        className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Styles
@@ -693,7 +693,7 @@ const StyleDetailView = ({
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">{style.name}</h1>
-              <p className="text-sm text-zinc-500">{getScriptCount()} scripts • Created {new Date(style.created_at).toLocaleDateString()}</p>
+              <p className="text-sm text-gray-500">{getScriptCount()} scripts • Created {new Date(style.created_at).toLocaleDateString()}</p>
             </div>
           </div>
         </div>
@@ -707,7 +707,7 @@ const StyleDetailView = ({
           </button>
           <button
             onClick={() => onEdit(style)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-zinc-800 text-white rounded-xl hover:bg-zinc-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 bg-gray-800/50 text-white rounded-xl hover:bg-gray-700/50 transition-colors border border-gray-700/50"
           >
             <Edit3 className="w-4 h-4" />
             Edit
@@ -725,7 +725,7 @@ const StyleDetailView = ({
       {/* Scripts Section */}
       <div className="mb-8">
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-zinc-400" />
+          <FileText className="w-5 h-5 text-gray-400" />
           Scripts
         </h2>
         <div className="space-y-3">
@@ -735,27 +735,27 @@ const StyleDetailView = ({
             const isExpanded = expandedScripts.includes(num);
             
             return (
-              <div key={num} className="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden">
+              <div key={num} className="glass-card rounded-xl overflow-hidden">
                 <button
                   onClick={() => toggleScript(num)}
-                  className="w-full flex items-center justify-between p-4 text-left hover:bg-zinc-800/50 transition-colors"
+                  className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-800/30 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-xs font-medium text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded">
                       Script {num}
                     </span>
-                    <span className="text-sm text-zinc-400 truncate max-w-md">
+                    <span className="text-sm text-gray-400 truncate max-w-md">
                       {script.substring(0, 60)}...
                     </span>
                   </div>
                   <ChevronRight className={cn(
-                    "w-5 h-5 text-zinc-500 transition-transform",
+                    "w-5 h-5 text-gray-500 transition-transform",
                     isExpanded && "rotate-90"
                   )} />
                 </button>
                 {isExpanded && (
-                  <div className="px-4 pb-4 border-t border-zinc-800">
-                    <p className="text-zinc-300 whitespace-pre-line text-sm leading-relaxed pt-4">
+                  <div className="px-4 pb-4 border-t border-gray-700/30">
+                    <p className="text-gray-300 whitespace-pre-line text-sm leading-relaxed pt-4">
                       {script}
                     </p>
                   </div>
@@ -767,19 +767,19 @@ const StyleDetailView = ({
       </div>
 
       {/* AI-Generated Style Summary */}
-      <div className="bg-gradient-to-br from-zinc-900/80 to-zinc-900/40 border border-zinc-800 rounded-2xl p-6">
+      <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 flex items-center justify-center">
             <Brain className="w-5 h-5 text-purple-400" />
           </div>
           <div>
             <h2 className="text-lg font-semibold text-white">AI-Generated Style Summary</h2>
-            <p className="text-sm text-zinc-500">Analysis of your writing patterns</p>
+            <p className="text-sm text-gray-500">Analysis of your writing patterns</p>
           </div>
         </div>
 
         {!hasSummary ? (
-          <div className="text-center py-8 text-zinc-500">
+          <div className="text-center py-8 text-gray-500">
             <Brain className="w-12 h-12 mx-auto mb-3 opacity-30" />
             <p>No AI summary available yet</p>
             <p className="text-sm mt-1">Summary will be generated when the style profile is analyzed</p>
@@ -788,7 +788,7 @@ const StyleDetailView = ({
           <div className="space-y-4">
             {/* Tone */}
             {style.tone && (
-              <div className="bg-zinc-800/50 rounded-xl p-4">
+              <div className="bg-gray-800/30 border border-gray-700/30 rounded-xl p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs font-medium text-purple-400 uppercase tracking-wide">Tone</span>
                 </div>
@@ -798,7 +798,7 @@ const StyleDetailView = ({
 
             {/* Hook Style */}
             {style.hook_style && (
-              <div className="bg-zinc-800/50 rounded-xl p-4">
+              <div className="bg-gray-800/30 border border-gray-700/30 rounded-xl p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs font-medium text-cyan-400 uppercase tracking-wide">Hook Style</span>
                 </div>
@@ -808,7 +808,7 @@ const StyleDetailView = ({
 
             {/* Structure */}
             {style.structure && (
-              <div className="bg-zinc-800/50 rounded-xl p-4">
+              <div className="bg-gray-800/30 border border-gray-700/30 rounded-xl p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs font-medium text-amber-400 uppercase tracking-wide">Structure</span>
                 </div>
@@ -818,13 +818,13 @@ const StyleDetailView = ({
 
             {/* Common Phrases */}
             {style.common_phrases && style.common_phrases.length > 0 && (
-              <div className="bg-zinc-800/50 rounded-xl p-4">
+              <div className="bg-gray-800/30 border border-gray-700/30 rounded-xl p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xs font-medium text-green-400 uppercase tracking-wide">Common Phrases</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {style.common_phrases.map((phrase, i) => (
-                    <span key={i} className="px-3 py-1.5 bg-zinc-700/50 text-zinc-300 text-sm rounded-lg">
+                    <span key={i} className="px-3 py-1.5 bg-gray-700/30 text-gray-300 text-sm rounded-lg border border-gray-600/30">
                       "{phrase}"
                     </span>
                   ))}
@@ -834,7 +834,7 @@ const StyleDetailView = ({
 
             {/* Writing Rules */}
             {style.writing_rules && style.writing_rules.length > 0 && (
-              <div className="bg-zinc-800/50 rounded-xl p-4">
+              <div className="bg-gray-800/30 border border-gray-700/30 rounded-xl p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xs font-medium text-pink-400 uppercase tracking-wide">Writing Rules</span>
                 </div>
@@ -1095,7 +1095,7 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Style Profiles</h1>
-          <p className="text-zinc-400">Create a writing style by uploading 10 scripts.</p>
+          <p className="text-gray-400">Create a writing style by uploading 10 scripts.</p>
         </div>
         <button
           onClick={() => {
@@ -1113,15 +1113,15 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
       {/* Styles Grid */}
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <RefreshCw className="w-8 h-8 text-zinc-400 animate-spin" />
+          <RefreshCw className="w-8 h-8 text-gray-400 animate-spin" />
         </div>
       ) : styles.length === 0 ? (
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-12 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-zinc-800 flex items-center justify-center mx-auto mb-4">
-            <Palette className="w-8 h-8 text-zinc-500" />
+        <div className="glass-card rounded-2xl p-12 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-gray-800/50 flex items-center justify-center mx-auto mb-4">
+            <Palette className="w-8 h-8 text-gray-500" />
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">No style profiles yet</h3>
-          <p className="text-zinc-400 mb-6 max-w-md mx-auto">
+          <p className="text-gray-400 mb-6 max-w-md mx-auto">
             Create your first style profile by uploading 10 scripts that represent your unique writing style.
           </p>
           <button
@@ -1138,23 +1138,23 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
             <div
               key={style.id}
               onClick={() => handleViewStyle(style)}
-              className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-all group cursor-pointer"
+              className="glass-card rounded-xl p-5 hover:border-gray-600/50 transition-all group cursor-pointer hover:scale-[1.02]"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 flex items-center justify-center">
                   <Palette className="w-6 h-6 text-purple-400" />
                 </div>
                 <div className="flex items-center gap-1">
-                  <ChevronRight className="w-5 h-5 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
+                  <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-gray-400 transition-colors" />
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">{style.name}</h3>
-              <div className="flex items-center gap-2 text-sm text-zinc-500">
+              <div className="flex items-center gap-2 text-sm text-gray-400">
                 <FileText className="w-4 h-4" />
                 <span>{getScriptCount(style)} scripts</span>
               </div>
-              <div className="mt-3 pt-3 border-t border-zinc-800">
-                <p className="text-xs text-zinc-500">
+              <div className="mt-3 pt-3 border-t border-gray-700/30">
+                <p className="text-xs text-gray-500">
                   Created {new Date(style.created_at).toLocaleDateString()}
                 </p>
               </div>
@@ -1165,10 +1165,10 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
 
       {/* Create/Edit Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="glass-effect border border-gray-700/50 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
             {/* Modal Header */}
-            <div className="p-6 border-b border-zinc-800 flex items-center justify-between">
+            <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold text-white">
                   {editingStyle ? 'Edit Style Profile' : 'Create Style Profile'}
@@ -1181,7 +1181,7 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
                   setEditingStyle(null);
                   resetForm();
                 }}
-                className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1198,7 +1198,7 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
 
               {/* Style Name */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Style Name <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -1206,19 +1206,19 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   placeholder="e.g., Professional Tech Writer"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl py-3 px-4 text-white placeholder:text-zinc-500 focus:outline-none focus:border-cyan-500/50 transition-colors"
+                  className="w-full bg-gray-800/50 border border-gray-700/50 rounded-xl py-3 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-colors backdrop-blur-sm"
                 />
               </div>
 
               {/* Scripts */}
               <div className="space-y-4">
-                <label className="block text-sm font-medium text-zinc-300">
-                  Scripts <span className="text-zinc-500">(Add up to 10 scripts)</span>
+                <label className="block text-sm font-medium text-gray-300">
+                  Scripts <span className="text-gray-500">(Add up to 10 scripts)</span>
                 </label>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                   <div key={num}>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-medium text-zinc-500 bg-zinc-800 px-2 py-1 rounded">
+                      <span className="text-xs font-medium text-gray-400 bg-gray-800/50 px-2 py-1 rounded border border-gray-700/30">
                         Script {num}
                       </span>
                       {formData[`script_${num}` as keyof typeof formData] && (
@@ -1230,7 +1230,7 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
                       onChange={(e) => handleInputChange(`script_${num}`, e.target.value)}
                       placeholder={`Paste your script ${num} here...`}
                       rows={4}
-                      className="w-full bg-zinc-800 border border-zinc-700 rounded-xl py-3 px-4 text-white placeholder:text-zinc-500 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
+                      className="w-full bg-gray-800/50 border border-gray-700/50 rounded-xl py-3 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/50 transition-colors resize-none backdrop-blur-sm"
                     />
                   </div>
                 ))}
@@ -1238,8 +1238,8 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
             </div>
 
             {/* Modal Footer */}
-            <div className="p-6 border-t border-zinc-800 flex items-center justify-between">
-              <p className="text-sm text-zinc-500">
+            <div className="p-6 border-t border-gray-700/50 flex items-center justify-between">
+              <p className="text-sm text-gray-500">
                 {Object.entries(formData).filter(([key, value]) => key.startsWith('script_') && (value as string).trim()).length}/10 scripts added
               </p>
               <div className="flex items-center gap-3">
@@ -1249,7 +1249,7 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
                     setEditingStyle(null);
                     resetForm();
                   }}
-                  className="px-5 py-2.5 text-zinc-400 hover:text-white transition-colors"
+                  className="px-5 py-2.5 text-gray-400 hover:text-white transition-colors"
                 >
                   Cancel
                 </button>
@@ -1259,7 +1259,7 @@ const StylesSection = ({ onNavigateToDashboard }: { onNavigateToDashboard?: (sty
                   className={cn(
                     "flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold transition-all",
                     isSubmitting
-                      ? "bg-zinc-700 text-zinc-400 cursor-not-allowed"
+                      ? "bg-gray-700/50 text-gray-400 cursor-not-allowed"
                       : "bg-gradient-to-r from-cyan-500 to-purple-600 text-white hover:opacity-90"
                   )}
                 >
@@ -1335,55 +1335,55 @@ const HistorySection = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Boost History</h1>
-        <p className="text-zinc-400">View all your generated content boosts</p>
+        <p className="text-gray-400">View all your generated content boosts</p>
       </div>
 
       {/* History Table */}
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <RefreshCw className="w-8 h-8 text-zinc-400 animate-spin" />
+          <RefreshCw className="w-8 h-8 text-gray-400 animate-spin" />
         </div>
       ) : boosts.length === 0 ? (
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-12 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-zinc-800 flex items-center justify-center mx-auto mb-4">
-            <History className="w-8 h-8 text-zinc-500" />
+        <div className="glass-card rounded-2xl p-12 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-gray-800/50 flex items-center justify-center mx-auto mb-4">
+            <History className="w-8 h-8 text-gray-500" />
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">No boosts yet</h3>
-          <p className="text-zinc-400 max-w-md mx-auto">
+          <p className="text-gray-400 max-w-md mx-auto">
             Generate your first content boost from the Dashboard to see it here.
           </p>
         </div>
       ) : (
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl overflow-hidden">
+        <div className="glass-card rounded-2xl overflow-hidden">
           {/* Table Header */}
-          <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-zinc-800/50 border-b border-zinc-700">
-            <div className="col-span-3 text-sm font-medium text-zinc-400">Date</div>
-            <div className="col-span-3 text-sm font-medium text-zinc-400">Style</div>
-            <div className="col-span-5 text-sm font-medium text-zinc-400">Idea</div>
-            <div className="col-span-1 text-sm font-medium text-zinc-400"></div>
+          <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-gray-800/30 border-b border-gray-700/50">
+            <div className="col-span-3 text-sm font-medium text-gray-400">Date</div>
+            <div className="col-span-3 text-sm font-medium text-gray-400">Style</div>
+            <div className="col-span-5 text-sm font-medium text-gray-400">Idea</div>
+            <div className="col-span-1 text-sm font-medium text-gray-400"></div>
           </div>
 
           {/* Table Body */}
-          <div className="divide-y divide-zinc-800">
+          <div className="divide-y divide-gray-700/30">
             {boosts.map((boost) => (
               <div
                 key={boost.id}
-                className="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-zinc-800/30 transition-colors cursor-pointer"
+                className="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-800/30 transition-colors cursor-pointer"
                 onClick={() => setSelectedBoost(boost)}
               >
                 <div className="col-span-3 flex items-center">
-                  <div className="flex items-center gap-2 text-sm text-zinc-300">
-                    <Calendar className="w-4 h-4 text-zinc-500" />
+                  <div className="flex items-center gap-2 text-sm text-gray-300">
+                    <Calendar className="w-4 h-4 text-gray-500" />
                     {formatDate(boost.generated_at)}
                   </div>
                 </div>
                 <div className="col-span-3 flex items-center">
-                  <span className="px-3 py-1 bg-purple-500/10 text-purple-400 text-sm rounded-lg">
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-400 text-sm rounded-lg border border-purple-500/30">
                     {boost.styles?.name || 'Unknown Style'}
                   </span>
                 </div>
                 <div className="col-span-5 flex items-center">
-                  <p className="text-sm text-zinc-400 truncate">
+                  <p className="text-sm text-gray-400 truncate">
                     {truncateText(boost.idea || 'No idea provided')}
                   </p>
                 </div>
@@ -1393,7 +1393,7 @@ const HistorySection = () => {
                       e.stopPropagation();
                       setSelectedBoost(boost);
                     }}
-                    className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-lg transition-colors"
+                    className="p-2 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -1414,18 +1414,18 @@ const HistorySection = () => {
           />
 
           {/* Drawer */}
-          <div className="fixed right-0 top-0 h-full w-full max-w-lg bg-zinc-900 border-l border-zinc-800 z-50 overflow-y-auto">
+          <div className="fixed right-0 top-0 h-full w-full max-w-lg glass-effect border-l border-gray-700/50 z-50 overflow-y-auto">
             {/* Drawer Header */}
-            <div className="sticky top-0 bg-zinc-900 border-b border-zinc-800 p-6 flex items-center justify-between">
+            <div className="sticky top-0 glass-header border-b border-gray-700/50 p-6 flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold text-white">Boost Details</h2>
-                <p className="text-sm text-zinc-500 mt-1">
+                <p className="text-sm text-gray-500 mt-1">
                   {formatDate(selectedBoost.generated_at)}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedBoost(null)}
-                className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1451,13 +1451,13 @@ const HistorySection = () => {
               {/* Idea */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                     Idea / Topic
                   </label>
                   {selectedBoost.idea && (
                     <button
                       onClick={() => handleCopy('idea', selectedBoost.idea || '')}
-                      className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition-colors"
+                      className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors"
                     >
                       {copiedField === 'idea' ? (
                         <><Check className="w-3 h-3" /> Copied!</>
@@ -1467,8 +1467,8 @@ const HistorySection = () => {
                     </button>
                   )}
                 </div>
-                <div className="bg-zinc-800/50 border border-zinc-700 rounded-xl p-4">
-                  <p className="text-zinc-300 whitespace-pre-line">
+                <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 backdrop-blur-sm">
+                  <p className="text-gray-300 whitespace-pre-line">
                     {selectedBoost.idea || 'No idea provided'}
                   </p>
                 </div>
@@ -1477,13 +1477,13 @@ const HistorySection = () => {
               {/* Script */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                     Generated Script
                   </label>
                   {selectedBoost.script && (
                     <button
                       onClick={() => handleCopy('script', selectedBoost.script || '')}
-                      className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition-colors"
+                      className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors"
                     >
                       {copiedField === 'script' ? (
                         <><Check className="w-3 h-3" /> Copied!</>
@@ -1493,8 +1493,8 @@ const HistorySection = () => {
                     </button>
                   )}
                 </div>
-                <div className="bg-zinc-800/50 border border-zinc-700 rounded-xl p-4">
-                  <p className="text-zinc-300 whitespace-pre-line text-sm leading-relaxed">
+                <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 backdrop-blur-sm">
+                  <p className="text-gray-300 whitespace-pre-line text-sm leading-relaxed">
                     {selectedBoost.script || 'No script generated'}
                   </p>
                 </div>
@@ -1503,13 +1503,13 @@ const HistorySection = () => {
               {/* CTA */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                     Call to Action
                   </label>
                   {selectedBoost.cta && (
                     <button
                       onClick={() => handleCopy('cta', selectedBoost.cta || '')}
-                      className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition-colors"
+                      className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors"
                     >
                       {copiedField === 'cta' ? (
                         <><Check className="w-3 h-3" /> Copied!</>
@@ -1519,7 +1519,7 @@ const HistorySection = () => {
                     </button>
                   )}
                 </div>
-                <div className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-xl p-4">
+                <div className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-xl p-4 backdrop-blur-sm">
                   <p className="text-cyan-200 font-medium">
                     {selectedBoost.cta || 'No CTA generated'}
                   </p>
@@ -1532,7 +1532,7 @@ const HistorySection = () => {
                   const fullContent = `Idea: ${selectedBoost.idea || 'N/A'}\n\nScript:\n${selectedBoost.script || 'N/A'}\n\nCTA: ${selectedBoost.cta || 'N/A'}`;
                   handleCopy('all', fullContent);
                 }}
-                className="w-full flex items-center justify-center gap-2 py-3 bg-zinc-800 text-white rounded-xl hover:bg-zinc-700 transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-3 bg-gray-800/50 border border-gray-700/50 text-white rounded-xl hover:bg-gray-700/50 transition-colors backdrop-blur-sm"
               >
                 {copiedField === 'all' ? (
                   <><Check className="w-4 h-4" /> Copied All!</>
@@ -1578,7 +1578,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="relative min-h-screen w-full bg-gray-900 text-gray-200">
+      {/* Animated background shapes */}
+      <div className="shape-1"></div>
+      <div className="shape-2"></div>
+      <div className="shape-3"></div>
+      
       {/* Sidebar */}
       <Sidebar 
         activeSection={activeSection} 
@@ -1589,13 +1594,15 @@ const Dashboard = () => {
       />
 
       {/* Main Content */}
-      <div className="lg:ml-64">
+      <div className="lg:ml-64 relative z-10">
         {/* Header */}
-        <Header 
-          activeSection={activeSection} 
-          setIsOpen={setSidebarOpen} 
-          onLogout={handleLogout}
-        />
+        <div className="relative z-[9999]">
+          <Header 
+            activeSection={activeSection} 
+            setIsOpen={setSidebarOpen} 
+            onLogout={handleLogout}
+          />
+        </div>
 
         {/* Content Area */}
         <main className="min-h-[calc(100vh-4rem)]">
