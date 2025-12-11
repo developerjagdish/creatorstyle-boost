@@ -8,6 +8,7 @@ import {
 import BentoGrid from './components/ui/bento-grid-01';
 import { ContainerScroll } from './components/ui/container-scroll-animation';
 import { MagneticText } from './components/ui/morphing-cursor';
+import { ShaderAnimation } from './components/ui/shader-lines';
 
 // --- COMPONENTS ---
 
