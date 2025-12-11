@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   Zap,
   ArrowRight,
@@ -13,6 +13,7 @@ import { ContainerScroll } from './components/ui/container-scroll-animation';
 import { MagneticText } from './components/ui/morphing-cursor';
 import { ShaderAnimation } from './components/ui/shader-lines';
 import ShaderBackground from './components/ui/shader-background';
+import Dashboard from './components/dashboard/Dashboard';
 
 // Smooth scroll with extra glide effect
 const smoothScrollWithGlide = (targetSelector: string, offset: number = 60) => {
@@ -606,7 +607,40 @@ const Footer = () => (
 
 // --- MAIN LAYOUT ---
 
-export default function App() {
+// Simple router hook
+function useRoute() {
+  const [path, setPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => setPath(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    
+    // Handle link clicks for SPA navigation
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a');
+      if (anchor && anchor.href.startsWith(window.location.origin)) {
+        const newPath = new URL(anchor.href).pathname;
+        if (newPath !== path) {
+          e.preventDefault();
+          window.history.pushState({}, '', newPath);
+          setPath(newPath);
+        }
+      }
+    };
+    
+    document.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      document.removeEventListener('click', handleClick);
+    };
+  }, [path]);
+
+  return path;
+}
+
+// Landing Page Component
+function LandingPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-white/20 selection:text-white">
       <Navbar />
@@ -695,4 +729,16 @@ export default function App() {
       <Footer />
     </div>
   );
+}
+
+export default function App() {
+  const path = useRoute();
+
+  // Render dashboard if on /dashboard path
+  if (path === '/dashboard') {
+    return <Dashboard />;
+  }
+
+  // Default: render landing page
+  return <LandingPage />;
 }
