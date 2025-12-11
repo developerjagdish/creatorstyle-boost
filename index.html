@@ -106,36 +106,42 @@
   </script>
   <style>
     body {
-      background-color: #050505;
-      color: #f8fafc;
+      background-color: #0a0a0a;
+      color: #fafafa;
       min-height: 100vh;
+    }
+
+    /* Shimmer animation for gradient buttons */
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
     /* Technical Grid Background */
     .bg-tech-grid {
       background-size: 40px 40px;
       background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
     }
 
     .shine-overlay {
-      background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+      background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
     }
 
     .glass-card {
-      background: rgba(15, 15, 15, 0.6);
+      background: rgba(25, 25, 25, 0.7);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .matte-card {
-      background-color: #0f0f0f;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background-color: #141414;
+      border: 1px solid rgba(255, 255, 255, 0.10);
     }
 
     .gradient-text {
-      background: linear-gradient(to right, #ffffff, #94a3b8);
+      background: linear-gradient(to right, #ffffff, #a1a1aa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
